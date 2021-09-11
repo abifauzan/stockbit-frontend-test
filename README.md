@@ -1,44 +1,78 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+<h1 align="center">Stockbit React Dev Test</h1>
 
-## Available Scripts
+<p align="center">
+Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/> "www.omdbapi.com") 
+</p>
 
-In the project directory, you can run:
+## Features
 
-### `yarn start`
+* Auto-suggesstion movie search by title or IMDB ID
+* Display list of movies
+* Inifinite scroll in movie list page
+* Single page for single movie detail
+* Toggle dark / light theme
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installing
 
-The page will reload if you make edits.<br />
+* Install dependenciess by execute:
+```
+yarn add {dependencies}
+```
+
+### Executing program
+
+* Running the app by execute:
+```
+yarn start
+```
+## Available Commands
+
+* Execute the app by using
+```
+yarn start
+```
+
+The app is built using `create-react-app` so this command Runs the app in Development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser. You also need to run the server file as well to completely run the app. The page will reload if you make edits.
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `"npm run build": "react-scripts build"`,
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Builds the app for production to the `build` folder. It correctly bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes. Your app will be ready to deploy!
 
-### `yarn build`
+### `"npm run test": "react-scripts test"`,
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Launches the test runner in the interactive watch mode.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### `"npm run dev": "concurrently "nodemon server" "npm run start"`,
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For running the server and app together I am using concurrently this helps a lot in the MERN application as it runs both the server (client and server) concurrently. So you can work on them both together.
 
-### `yarn eject`
+### `"serve": "node server"`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+For running the server file on you can use this command.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### `npm run serve`
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Built With
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- React JS
+- Redux
+- Redux-toolkit
+- Chakra UI
+- Axios
+- Framer Motion
+- React router dom
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Author
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Abi Fauzan**
+
+- [Profile](https://www.linkedin.com/in/abifauzan/ "Abi Fauzan")
+- [Email](mailto:abifauzan234@gmail.com?subject=Hi "Hi!")
+
+## 🤝 Support
+
+Contributions, issues, and feature requests are welcome!
+
+Give a ⭐️ if you like this project!
