@@ -4,6 +4,9 @@
 Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/>) 
 </p>
 
+## Demo
+* [Click Here](https://613cb6ed912b770007b2a336--reverent-brahmagupta-a8da89.netlify.app/)
+
 ## Features
 
 * Auto-suggesstion movie search by title or IMDB ID

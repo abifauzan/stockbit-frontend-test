@@ -85,8 +85,6 @@ function MovieDetail(props) {
   )
   const textColor = useColorModeValue('gray.700', 'gray.200')
 
-  console.log(statusSelector);
-
   return (
       <Container maxW={'7xl'} p="12">
           <Button 
@@ -97,7 +95,7 @@ function MovieDetail(props) {
           >
             Back
           </Button>
-          {checkObjectLength(movieDetail) && statusSelector === 'idle' ? (
+          {checkObjectLength(movieDetail) && statusSelector === 'idle' && movieSelector.Response !== 'False' ? (
               <Box
                 marginTop={{ base: '1', sm: '5' }}
                 display="flex"
