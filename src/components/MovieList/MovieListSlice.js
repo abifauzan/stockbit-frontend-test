@@ -33,12 +33,9 @@ export const movieListSlice = createSlice({
     name: 'movieList',
     initialState,
     reducers: {
-        fetchInitialData: (state, action) => {
-            state.movies = action.payload
+        clearData: (state, action) => {
+            state.movies = []
         },
-        fetchMoreData: (state, action) => {
-            state.movies = [...state.movies, action.payload]
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -56,7 +53,7 @@ export const movieListSlice = createSlice({
                     state.totalResults = 0
                     state.hasMoreArticle = false
                 } else {
-                    if (action.payload.Search.totalResults > 5) {
+                    if (parseInt(action.payload.totalResults) > 5) {
                         state.hasMoreArticle = true
                     } else {
                         state.hasMoreArticle = false
@@ -66,7 +63,7 @@ export const movieListSlice = createSlice({
                         t.imdbID === el.imdbID
                     ))
                 )
-                    state.totalResults = action.payload.totalResults
+                    state.totalResults = parseInt(action.payload.totalResults)
                 }
                 
             })
@@ -90,12 +87,13 @@ export const movieListSlice = createSlice({
 })
 
 export const {
-    fetchInitialData,
-    fetchMoreData,
+    clearData,
 } = movieListSlice.actions
 
 export const selectMovies = (state) => state.movieList.movies
 export const selectTotalResults = (state) => state.movieList.totalResults
 export const selectHasMoreArticle = (state) => state.movieList.hasMoreArticle
+export const selectStatus = (state) => state.movieList.status
+export const selectStatusFetchMore = (state) => state.movieList.statusFetchMore
 
 export default movieListSlice.reducer

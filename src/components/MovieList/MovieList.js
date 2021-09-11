@@ -9,18 +9,21 @@ import {
     Button,
     Box,
     Wrap, 
-    WrapItem
+    WrapItem,
+    Spinner,
+
 } from '@chakra-ui/react';
 import BoxAlert from '../BoxAlert/BoxAlert';
 import MovieCard from '../MovieCard/MovieCard';
 import {
     selectMovies,
-    fetchInitialData,
     fetchMoreData,
     fetchInitialMovies,
     fetchMoreMovies,
     selectTotalResults,
     selectHasMoreArticle,
+    selectStatus,
+    selectStatusFetchMore,
 } from './MovieListSlice'
 import usePrevious from '../../hooks/usePrevious';
 import { useHistory, useParams } from 'react-router-dom';
@@ -35,6 +38,9 @@ function MovieList(props) {
     const movieSelector = useSelector(selectMovies)
     const totalResultsSelector = useSelector(selectTotalResults)
     const hasMoreArticleSelector = useSelector(selectHasMoreArticle)
+    const selectStatusSelector = useSelector(selectStatus)
+    const selectStatusFetchMoreSelector = useSelector(selectStatusFetchMore)
+
     const dispatch = useDispatch()
 
     const prevPage = usePrevious(page)
@@ -62,7 +68,9 @@ function MovieList(props) {
       }
 
     useEffect(() => {
-        dispatch(fetchInitialMovies({name: movieSearchName}))
+        setTimeout(() => {
+            dispatch(fetchInitialMovies({name: movieSearchName}))
+        }, 1500);
     }, [dispatch, movieSearchName])
 
     useEffect(() => {
@@ -162,7 +170,7 @@ function MovieList(props) {
                     Search movie : {' '} <br/>
 
                     <Text as={'span'} color={'blue.400'}>
-                        Spider Man...
+                        {movieSearchName}
                     </Text>
                 </Heading>
 
@@ -178,7 +186,7 @@ function MovieList(props) {
                         // py={{ base: 10, md: 10 }}
                     >
                         {/* <BoxAlert /> */}
-                        {movieList.length > 0 ? movieList.map((el, index) => (
+                        {selectStatusSelector !== 'loading' && movieList.length > 0 ? movieList.map((el, index) => (
                             <WrapItem 
                                 key={el.imdbID}
                                 onClick={() => history.push(`/movie/${el.Title}/detail`)}
@@ -187,22 +195,12 @@ function MovieList(props) {
                                 <MovieCard item={el} />
                             </WrapItem>
                         )) : (
-                            <Text>
-                                Loading...
-                            </Text>
+                            <Spinner size='xl' />
                         )}
                         
                     </Wrap>
 
-                <Button
-                    onClick={handleMore}
-                    disabled={page === Math.ceil(totalResult / 10)}
-                    bg='blue.400'
-                    color='white'
-                >
-                    Add more
-                </Button>
-                
+                    {selectStatusFetchMoreSelector === 'loading' && <Spinner size='xl' />}
 
             </Stack>
         </Container>

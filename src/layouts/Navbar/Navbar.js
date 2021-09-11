@@ -21,12 +21,14 @@ import {
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  MoonIcon,
+  SunIcon,
 } from '@chakra-ui/icons';
 import { useHistory } from 'react-router-dom'
   
   export default function Navbar() {
     const { isOpen, onToggle } = useDisclosure();
-    const { toggleColorMode } = useColorMode()
+    const { colorMode, toggleColorMode } = useColorMode()
     const history = useHistory()
   
     return (
@@ -54,7 +56,7 @@ import { useHistory } from 'react-router-dom'
               aria-label={'Toggle Navigation'}
             />
           </Flex>
-          <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+          <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} pl={[0, 60]}>
             <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
@@ -75,19 +77,22 @@ import { useHistory } from 'react-router-dom'
             flex={{ base: 1, md: 0 }}
             justify={'flex-end'}
             direction={'row'}
+            pr={[0, 60]}
             spacing={6}>
             <Button
-            //   display={{ base: 'none', md: 'inline-flex' }}
-                onClick={toggleColorMode}
-              fontSize={'sm'}
+              onClick={toggleColorMode}
+              // fontSize={'sm'}
+              size='sm'
               fontWeight={600}
               color={'white'}
-              bg={useColorModeValue('blue.800', 'blue.400')}
+              bg={useColorModeValue('blue.800', 'blue.900')}
               href={'#'}
-              _hover={{
-                bg: 'blue.300',
-              }}>
-              Toggle Theme
+              _hover={useColorModeValue('blue.300', 'blue.600')}
+              // _hover={{
+              //   bg: 'blue.300',
+              // }}
+            >
+              {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
             </Button>
           </Stack>
         </Flex>
@@ -246,41 +251,24 @@ import { useHistory } from 'react-router-dom'
   
   const NAV_ITEMS = [
     {
-      label: 'Inspiration',
-      children: [
-        {
-          label: 'Explore Design Work',
-          subLabel: 'Trending Design to inspire you',
-          href: '#',
-        },
-        {
-          label: 'New & Noteworthy',
-          subLabel: 'Up-and-coming Designers',
-          href: '#',
-        },
-      ],
-    },
-    {
-      label: 'Find Work',
-      children: [
-        {
-          label: 'Job Board',
-          subLabel: 'Find your dream design job',
-          href: '#',
-        },
-        {
-          label: 'Freelance Projects',
-          subLabel: 'An exclusive list for contract work',
-          href: '#',
-        },
-      ],
-    },
-    {
-      label: 'Learn Design',
+      label: 'Github Page',
       href: '#',
     },
-    {
-      label: 'Hire Designers',
-      href: '#',
-    },
+    // {
+      
+    //   label: 'Github Page',
+    //   children: [
+    //     {
+    //       label: 'Explore Design Work',
+    //       subLabel: 'Trending Design to inspire you',
+    //       href: '#',
+    //     },
+    //     {
+    //       label: 'New & Noteworthy',
+    //       subLabel: 'Up-and-coming Designers',
+    //       href: '#',
+    //     },
+    //   ],
+    // },
+    
   ];

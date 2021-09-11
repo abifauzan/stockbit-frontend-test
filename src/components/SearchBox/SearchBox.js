@@ -13,18 +13,22 @@ import {
     Box,
     Text,
     Divider,
+    Flex,
+    StackDivider,
+    useColorModeValue,
+    Icon,
+    Spinner,
   } from "@chakra-ui/react"
+import { SearchIcon } from '@chakra-ui/icons'
 import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "react-click-outside-hook";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, useDispatch } from 'react-redux';
 import {
     selectMovies,
-    fetchInitialData,
-    fetchMoreData,
+    clearData,
     fetchInitialMovies,
-    fetchMoreMovies,
-    selectTotalResults,
+    selectStatus,
 } from '../../components/MovieList/MovieListSlice'
 import usePrevious from '../../hooks/usePrevious';
 import { useHistory, useParams } from 'react-router-dom';
@@ -60,7 +64,9 @@ function SearchBox(props) {
     const [movieList, setMovieList] = useState([]);
     const [noMovieList, setNoMovieList] = useState(false);
 
+
     const movieSelector = useSelector(selectMovies)
+    const selectStatusSelector = useSelector(selectStatus)
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -83,6 +89,7 @@ function SearchBox(props) {
 
 
     const collapseContainer = () => {
+        dispatch(clearData())
         setIsExpanded(false);
         setSearchQuery("");
         setLoading(false);
@@ -105,9 +112,13 @@ function SearchBox(props) {
     };
 
     const handleSearchMovie = () => {
-        if (searchQuery.length > 2) {
-            history.push(`/movie/${searchQuery}`)
-        }
+        setLoading(true)
+        setTimeout(() => {
+            if (searchQuery.length > 2) {
+                history.push(`/movie/${searchQuery}`)
+            }
+        }, 1500);
+        setLoading(false)
     }
 
 
@@ -124,25 +135,27 @@ function SearchBox(props) {
         if (isClickedOutside) collapseContainer();
     }, [isClickedOutside]);
 
-    console.log(movieList)
+    // console.log('selectStatusSelector', selectStatusSelector)
 
     useDebounce(searchQuery, 500, searchMoviesQuery);
+
+    const linkHover = useColorModeValue('gray.200', 'gray.700')
+
     return (
 
         <Stack 
             w='100%'
+            maxW={['100%', '60%']}
             spacing={4} 
             direction="column" 
             justify='center'
             align="center"
             ref={parentRef}
         >
-            <FormControl id="email" spacing={40}>
-                <FormLabel>Search Movie</FormLabel>
-
-                <InputGroup size="md">
+            <Flex flexDirection='row' w='100%'>
+                <InputGroup size="md" mr={[3, 5]}>
                     <Input
-                        pr="4.5rem"
+                        p={['1.5rem', '1.8rem']}
                         type="text" 
                         placeholder='Example: Batman' 
                         onChange={changeHandler}
@@ -150,10 +163,14 @@ function SearchBox(props) {
                         ref={inputRef}
                         value={searchQuery}
                         autoComplete="off"
+                        borderRadius='40'
+                        bg='gray.100'
                     />
                     {isExpanded && (
                         <InputRightElementWrap 
                             width="4.5rem"
+                            mt={[1.5, 2]}
+                            ml='2'
                             key="close-icon"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -161,12 +178,22 @@ function SearchBox(props) {
                             onClick={collapseContainer}
                             transition={{ duration: 0.2 }}
                         >
-                            <CloseButton bg='blue.400' color='white' />
+                            <CloseButton color='gray.500' />
                         </InputRightElementWrap>
                     )}
+                        
                     
                 </InputGroup>
-            </FormControl>
+
+                <Button 
+                    borderRadius='40'
+                    fontSize='lg'
+                    p={['1.5rem', '1.8rem']}  
+                    colorScheme="blue" 
+                    onClick={handleSearchMovie}
+                    disabled={searchQuery === ''}
+                ><SearchIcon /></Button>
+            </Flex>
 
             <AnimatePresence exitBeforeEnter>
                 <StackWrap 
@@ -175,27 +202,32 @@ function SearchBox(props) {
                     transition={containerTransition}
                     initial="initial"
                     exit='collapsed'
-                    direction='column' 
-                    bg='gray.100' 
-                    w='100%' 
-                    borderRadius='5' 
-                    padding='1'
+                    w='100%'
+                    textAlign='left'
+                    px='1rem'
+                    spacing='0'
+                    divider={<StackDivider borderColor={useColorModeValue('gray.100', 'gray.700')} /> }
                 >
-                    {movieList.length > 0 ? movieList.map(el => (
-                        <Box 
+                    {selectStatusSelector === 'idle' && movieList.length > 0 ? movieList.map(el => (
+                        <Text 
                             key={el.imdbID}
+                            py='0.5rem'
+                            px='0.5rem'
+                            fontWeight={600} 
+                            borderRadius='5'
+                            _hover={{bg : linkHover}}
+                            transition='0.2s all ease-in-out'
                             onClick={() => {
                                 // setSearchQuery(el.Title)
                                 history.push(`/movie/${el.Title}`)
                             }}
-                        ><Text fontSize='lg'>{el.Title}</Text><Divider /></Box>
-                    )) : (
-                        <BoxAlert />
-                    )}
+                        >{el.Title}</Text>
+                    )) : selectStatusSelector === 'loading' && movieList.length === 0 ? (
+                        <Spinner size='lg' alignSelf='center' />
+                    ) : <BoxAlert text='No Movie available' /> }
                 </StackWrap>
             </AnimatePresence>
-            
-            <Button colorScheme="blue" onClick={handleSearchMovie}>Button</Button>
+            {isLoading && <Spinner size='lg' />}
         </Stack>
 
     );

@@ -15,6 +15,8 @@ import {
     Container,
     VStack,
     Button,
+    Stack,
+    StackDivider,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
@@ -83,6 +85,7 @@ function MovieDetail(props) {
     'radial(orange.300 1px, transparent 1px)'
   )
   const textColor = useColorModeValue('gray.700', 'gray.200')
+  const borderColor = useColorModeValue('gray.100', 'gray.700')
 
   return (
       <Container maxW={'7xl'} p="12">
@@ -100,26 +103,35 @@ function MovieDetail(props) {
                 marginTop={{ base: '1', sm: '5' }}
                 display="flex"
                 flexDirection={{ base: 'column', sm: 'row' }}
-                justifyContent="space-between">
+                justifyContent="center">
                 <Box
                 display="flex"
                 flex="1"
                 marginRight="3"
                 position="relative"
+                justifyContent='center'
                 alignItems="center">
                 <Box
                     width={{ base: '100%', sm: '85%' }}
                     zIndex="2"
                     marginLeft={{ base: '0', sm: '5%' }}
+                    justifyContent='center'
+                    alignItems="center"
                     marginTop="5%">
-                    <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
+                      <Image
+                        borderRadius="lg"
+                        src={movieDetail.Poster}
+                        alt="some good alt text"
+                        objectFit="contain"
+                    />
+                    {/* <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
                     <Image
                         borderRadius="lg"
                         src={movieDetail.Poster}
                         alt="some good alt text"
                         objectFit="contain"
                     />
-                    </Link>
+                    </Link> */}
                 </Box>
                 <Box zIndex="1" width="100%" position="absolute" height="100%">
                     <Box
@@ -149,7 +161,24 @@ function MovieDetail(props) {
                     fontSize="lg">
                     {movieDetail.Plot}
                 </Text>
-                <BlogAuthor name="John Doe" date={new Date('2021-04-06T19:01:27Z')} />
+                    
+                <Stack 
+                    
+                    w='100%'
+                    textAlign='left'
+                    px='1rem'
+                    spacing='0'
+                    divider={<StackDivider borderColor={borderColor} /> }
+                >
+                        <Text 
+                            py='0.5rem'
+                            px='0.5rem'
+                            fontWeight={600} 
+                            borderRadius='5'
+                        >Title</Text>
+                </Stack>
+
+
                 </Box>
             </Box>
           ) : (

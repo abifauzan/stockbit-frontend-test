@@ -17,12 +17,15 @@ function Landing(props) {
                 textAlign={'center'}
                 align={'center'}
                 spacing={{ base: 8, md: 10 }}
-                py={{ base: 20, md: 28 }}>
+                // py={{ base: 20, md: 28 }}
+            >
 
                 <Heading
                     fontWeight={600}
-                    fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+                    fontSize={{ base: '4xl', sm: '4xl', md: '6xl' }}
                     lineHeight={'110%'}
+                    pt={{ base: 8, md: 10 }}
+                    px={[10, 0]}
                 >
                     Search your{' '}
 
@@ -30,10 +33,8 @@ function Landing(props) {
                         favorite movie
                     </Text>
                 </Heading>
-                <Text color={'gray.500'} maxW={'3xl'}>
-                Never miss a meeting. Never be late for one too. Keep track of your
-                meetings and receive smart reminders in appropriate times. Read your
-                smart “Daily Agenda” every morning.
+                <Text fontSize={['lg', '2xl']} color={'gray.600'} maxW={'xl'}>
+                Use your own words, or search with titles or IMDB ID. We find movies for you to watch.
                 </Text>
 
                 {/* <Stack spacing={6} direction={'row'}>

@@ -10,7 +10,7 @@ import {
     return (
         <Alert status={type}>
             <AlertIcon />
-            Seems your account is about expire, upgrade now
+            {text}
         </Alert>
     )
   }
