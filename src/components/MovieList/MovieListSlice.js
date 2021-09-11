@@ -61,7 +61,7 @@ export const movieListSlice = createSlice({
                     index === self.findIndex((t) => (
                         t.imdbID === el.imdbID
                     ))
-                )
+                    )
                     state.totalResults = parseInt(action.payload.totalResults)
                 }
                 
@@ -79,7 +79,14 @@ export const movieListSlice = createSlice({
                     state.hasMoreArticle = false
                 } else {
                     state.hasMoreArticle = true
-                    state.movies = [...state.movies, ...action.payload.Search]
+                    // state.movies = [...state.movies, ...action.payload.Search]
+
+                    const filteredMovies = action.payload.Search.filter((el, index, self) =>
+                        index === self.findIndex((t) => (
+                            t.imdbID === el.imdbID
+                        ))
+                    )
+                    state.movies = [...state.movies, ...filteredMovies]
                 }
             })
     }

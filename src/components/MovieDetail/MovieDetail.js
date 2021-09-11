@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   selectMovie,
   fetchMovie,
+  selectStatus,
 } from './MovieDetailSlice'
 import { useHistory, useParams } from 'react-router-dom';
 import { checkObjectLength } from '../../utils/Util';
@@ -29,8 +30,8 @@ const BlogTags = (props) => {
       <Wrap spacing={2} marginTop={props.marginTop} mb='5'>
         {props.tags.map((tag) => {
           return (
-            <WrapItem>
-              <Tag size={'md'} variant="solid" colorScheme="linkedin" key={tag}>
+            <WrapItem key={tag}>
+              <Tag size={'md'} variant="solid" colorScheme="linkedin">
                 {tag}
               </Tag>
             </WrapItem>
@@ -63,6 +64,7 @@ function MovieDetail(props) {
 
   const dispatch = useDispatch()
   const movieSelector = useSelector(selectMovie)
+  const statusSelector = useSelector(selectStatus)
 
   const history = useHistory()
   const { name: movieSearchName } = useParams()
@@ -77,17 +79,16 @@ function MovieDetail(props) {
     }
 }, [movieSelector])
 
-  console.log(movieSelector)
-
   const bgGradient = useColorModeValue(
     'radial(orange.600 1px, transparent 1px)',
     'radial(orange.300 1px, transparent 1px)'
   )
   const textColor = useColorModeValue('gray.700', 'gray.200')
 
+  console.log(statusSelector);
+
   return (
       <Container maxW={'7xl'} p="12">
-          {/* <Heading as="h1">Stories by Chakra Templates</Heading> */}
           <Button 
             bg='blue.400'
             color='white'
@@ -96,7 +97,7 @@ function MovieDetail(props) {
           >
             Back
           </Button>
-          {checkObjectLength(movieDetail) ? (
+          {checkObjectLength(movieDetail) && statusSelector === 'idle' ? (
               <Box
                 marginTop={{ base: '1', sm: '5' }}
                 display="flex"
@@ -124,14 +125,6 @@ function MovieDetail(props) {
                         initial={{ opacity: 0, x: '-200px'}}
                         animate={{ opacity: 1, x: 0}}
                     />
-                    {/* <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
-                    <Image
-                        borderRadius="lg"
-                        src={movieDetail.Poster}
-                        alt="some good alt text"
-                        objectFit="contain"
-                    />
-                    </Link> */}
                 </Box>
                 <Box zIndex="1" width="100%" position="absolute" height="100%">
                     <Box
@@ -148,7 +141,7 @@ function MovieDetail(props) {
                   flexDirection="column"
                   justifyContent="center"
                   marginTop={{ base: '3', sm: '0' }}>
-                <BlogTags tags={movieDetail.Genre.split(',')} />
+                <BlogTags tags={movieDetail.Genre?.split(',') || ['General']} />
                 <Heading marginTop="1">
                     <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
                     {movieDetail.Title}
