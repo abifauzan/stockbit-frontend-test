@@ -9,6 +9,7 @@ const initialState = {
     totalResults: 0,
     status: 'idle',
     statusFetchMore: 'idle',
+    hasMoreArticle: false,
 }
 
 export const fetchInitialMovies = createAsyncThunk(
@@ -53,7 +54,13 @@ export const movieListSlice = createSlice({
                 if (action.payload.Response === 'False') {
                     state.movies = []
                     state.totalResults = 0
+                    state.hasMoreArticle = false
                 } else {
+                    if (action.payload.Search.totalResults > 5) {
+                        state.hasMoreArticle = true
+                    } else {
+                        state.hasMoreArticle = false
+                    }
                     state.movies = action.payload.Search.filter((el, index, self) =>
                     index === self.findIndex((t) => (
                         t.imdbID === el.imdbID
@@ -72,7 +79,12 @@ export const movieListSlice = createSlice({
             })
             .addCase(fetchMoreMovies.fulfilled, (state, action) => {
                 state.statusFetchMore = 'idle'
-                state.movies = [...state.movies, ...action.payload.Search]
+                if (action.payload.Response === 'False') {
+                    state.hasMoreArticle = false
+                } else {
+                    state.hasMoreArticle = true
+                    state.movies = [...state.movies, ...action.payload.Search]
+                }
             })
     }
 })
@@ -84,5 +96,6 @@ export const {
 
 export const selectMovies = (state) => state.movieList.movies
 export const selectTotalResults = (state) => state.movieList.totalResults
+export const selectHasMoreArticle = (state) => state.movieList.hasMoreArticle
 
 export default movieListSlice.reducer

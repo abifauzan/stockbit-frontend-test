@@ -20,6 +20,7 @@ import {
     fetchInitialMovies,
     fetchMoreMovies,
     selectTotalResults,
+    selectHasMoreArticle,
 } from './MovieListSlice'
 import usePrevious from '../../hooks/usePrevious';
 import { useHistory, useParams } from 'react-router-dom';
@@ -33,6 +34,7 @@ function MovieList(props) {
 
     const movieSelector = useSelector(selectMovies)
     const totalResultsSelector = useSelector(selectTotalResults)
+    const hasMoreArticleSelector = useSelector(selectHasMoreArticle)
     const dispatch = useDispatch()
 
     const prevPage = usePrevious(page)
@@ -49,6 +51,16 @@ function MovieList(props) {
         }
     }, [])
 
+    window.onscroll = () => {
+        // console.log(window.innerHeight, document.documentElement.scrollTop, document.documentElement.offsetHeight)
+        // console.log('hasMoreArticleSelector', hasMoreArticleSelector)
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+          if(hasMoreArticleSelector && page <= Math.ceil(totalResult / 10)) {
+            fetchMore(page)
+          }
+        }
+      }
+
     useEffect(() => {
         dispatch(fetchInitialMovies({name: movieSearchName}))
     }, [dispatch, movieSearchName])
@@ -57,8 +69,16 @@ function MovieList(props) {
         if (movieSelector.length > 0) {
             setTotalResult(Number(totalResultsSelector))
             setMovieList(movieSelector)
+            setPage(page+1)
         }
     }, [movieSelector, totalResultsSelector])
+
+    const fetchMore = page => {
+        setTimeout(() => {
+            dispatch(fetchMoreMovies({name: movieSearchName, nextPage: page}))
+        }, 1500);
+    }
+
 
     useEffect(() => {
         if (hasMore && page === prevPage) {
@@ -111,7 +131,7 @@ function MovieList(props) {
           const boundingRect = listMovieRef.current.getBoundingClientRect()
           if (boundingRect.bottom === window.innerHeight) {
             // setReachedBottom(true)
-            setHasMore(true)
+            // setHasMore(true)
             // console.log('hashMore', hasMore)
             // console.log('page', page)
           }
