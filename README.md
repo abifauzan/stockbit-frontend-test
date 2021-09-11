@@ -1,7 +1,11 @@
 <h1 align="center">Stockbit React Dev Test</h1>
 
-<p align="center">
-Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/>) 
+<p>
+Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/>) <br/>
+This app is built using create-react-app command with --template redux bellow:
+```
+npx create-react-app my-app --template redux
+```
 </p>
 
 ## Demo
@@ -15,11 +19,26 @@ Simple website app to fetch movies with detail page from [www.omdbapi.com](<http
 * Single page for single movie detail
 * Toggle dark / light theme
 
+## Dependencies
+- @chakra-ui/icons 
+- @chakra-ui/react 
+- @reduxjs/toolkit
+- axios
+- framer-motion
+- react-click-outside-hook
+- react-redux
+- react-router-dom
+
 ## Installing
 
-* Install dependenciess by execute:
+* Install dependencies above by execute:
 ```
 yarn add {dependencies}
+```
+
+* Run your project by execute:
+```
+yarn start
 ```
 
 ## Built With
