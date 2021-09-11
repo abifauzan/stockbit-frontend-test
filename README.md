@@ -1,12 +1,14 @@
 <h1 align="center">Stockbit React Dev Test</h1>
 
 <p>
-Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/>) <br/>
+Simple website app to fetch movies with detail page from [www.omdbapi.com](<http://www.omdbapi.com/>)
+
+</p>
+
 This app is built using create-react-app command with --template redux bellow:
 ```
 npx create-react-app my-app --template redux
 ```
-</p>
 
 ## Demo
 * [Click Here](https://613cb6ed912b770007b2a336--reverent-brahmagupta-a8da89.netlify.app/)
