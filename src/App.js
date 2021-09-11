@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Counter } from './features/counter/Counter';
 import Landing from './components/Landing/Landing';
 import MovieList from './components/MovieList/MovieList';
 import MovieDetail from './components/MovieDetail/MovieDetail';

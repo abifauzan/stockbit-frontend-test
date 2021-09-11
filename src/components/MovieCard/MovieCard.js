@@ -1,21 +1,19 @@
 import {
     Box,
-    Center,
     useColorModeValue,
     Heading,
     Text,
     Stack,
     Image,
 } from '@chakra-ui/react';
+import { motion } from "framer-motion";
 
-const IMAGE =
-  'https://images.unsplash.com/photo-1518051870910-a46e30d9db16?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80';
-
+const BoxMotion = motion(Box)
 
 function MovieCard({ item }) {
     // console.log(item.imdbID)
     return (
-            <Box
+            <BoxMotion
                 role={'group'}
                 p={6}
                 maxW={'300px'}
@@ -24,6 +22,9 @@ function MovieCard({ item }) {
                 boxShadow={'2xl'}
                 rounded={'lg'}
                 pos={'relative'}
+                cursor='pointer'
+                initial={{ opacity: 0, y: '200px'}}
+                animate={{ opacity: 1, y: 0}}
                 zIndex={1}>
                 <Box
                     rounded={'lg'}
@@ -71,7 +72,7 @@ function MovieCard({ item }) {
                     </Text> */}
                 </Stack>
                 </Stack>
-            </Box>
+            </BoxMotion>
     );
 }
 

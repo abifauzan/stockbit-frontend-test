@@ -252,7 +252,7 @@ import { useHistory } from 'react-router-dom'
   const NAV_ITEMS = [
     {
       label: 'Github Page',
-      href: '#',
+      href: 'https://github.com/abifauzan/stockbit-frontend-test',
     },
     // {
       

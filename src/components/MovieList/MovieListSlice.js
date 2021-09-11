@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { 
-    fetchMovieDetail,
     fetchMoviesByName 
 } from '../../services/MovieApi';
 

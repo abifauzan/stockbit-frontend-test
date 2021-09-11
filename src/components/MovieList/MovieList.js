@@ -1,23 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-    Flex,
     Container,
     Heading,
     Stack,
     Text,
-    Button,
     Box,
     Wrap, 
     WrapItem,
     Spinner,
 
 } from '@chakra-ui/react';
-import BoxAlert from '../BoxAlert/BoxAlert';
 import MovieCard from '../MovieCard/MovieCard';
 import {
     selectMovies,
-    fetchMoreData,
     fetchInitialMovies,
     fetchMoreMovies,
     selectTotalResults,
@@ -79,7 +75,7 @@ function MovieList(props) {
             setMovieList(movieSelector)
             setPage(page+1)
         }
-    }, [movieSelector, totalResultsSelector])
+    }, [movieSelector, page, totalResultsSelector])
 
     const fetchMore = page => {
         setTimeout(() => {
@@ -146,12 +142,6 @@ function MovieList(props) {
         }
     };
 
-    const handleMore = () => {
-        // setIsFetchMore(true)
-        const paging = Math.ceil(totalResult / 10)
-        // setPage(page+1)
-    }
-
     return (
         <Container maxW={'5xl'}>
             <Stack
@@ -163,7 +153,7 @@ function MovieList(props) {
 
                 <Heading
                     fontWeight={600}
-                    fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
+                    fontSize={{ base: '3xl', sm: '4xl', md: '5xl' }}
                     lineHeight={'110%'}
                     pb={10}
                 >
@@ -200,8 +190,11 @@ function MovieList(props) {
                         
                     </Wrap>
 
-                    {selectStatusFetchMoreSelector === 'loading' && <Spinner size='xl' />}
-
+                    {selectStatusFetchMoreSelector === 'loading' && <Box>
+                        <Text>Loading...</Text>
+                        <Spinner size='xl' />
+                    </Box>}
+                    
             </Stack>
         </Container>
     );

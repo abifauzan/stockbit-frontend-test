@@ -1,24 +1,16 @@
 import {
-    FormControl,
-    FormLabel,
-    FormErrorMessage,
-    FormHelperText,
     Input,
     Button,
     Stack,
     InputGroup,
     InputRightElement,
-    forwardRef,
     CloseButton,
-    Box,
     Text,
-    Divider,
     Flex,
     StackDivider,
     useColorModeValue,
-    Icon,
     Spinner,
-  } from "@chakra-ui/react"
+} from "@chakra-ui/react"
 import { SearchIcon } from '@chakra-ui/icons'
 import { useState, useRef, useEffect } from "react";
 import { useClickOutside } from "react-click-outside-hook";
@@ -30,8 +22,7 @@ import {
     fetchInitialMovies,
     selectStatus,
 } from '../../components/MovieList/MovieListSlice'
-import usePrevious from '../../hooks/usePrevious';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDebounce } from '../../hooks/useDebounce';
 import BoxAlert from '../BoxAlert/BoxAlert';
 
@@ -69,8 +60,6 @@ function SearchBox(props) {
     const selectStatusSelector = useSelector(selectStatus)
     const dispatch = useDispatch()
     const history = useHistory()
-
-    const isEmpty = !movieList || movieList.length === 0;
 
     const changeHandler = (e) => {
         e.preventDefault();
@@ -113,12 +102,14 @@ function SearchBox(props) {
 
     const handleSearchMovie = () => {
         setLoading(true)
+        setIsExpanded(false)
         setTimeout(() => {
             if (searchQuery.length > 2) {
+                dispatch(clearData())
                 history.push(`/movie/${searchQuery}`)
+                setLoading(false)
             }
         }, 1500);
-        setLoading(false)
     }
 
 
@@ -164,7 +155,9 @@ function SearchBox(props) {
                         value={searchQuery}
                         autoComplete="off"
                         borderRadius='40'
-                        bg='gray.100'
+                        _placeholder={useColorModeValue('gray.500', 'blue.500')}
+                        color='gray.800'
+                        bg={useColorModeValue('gray.100', 'white')}
                     />
                     {isExpanded && (
                         <InputRightElementWrap 
@@ -217,9 +210,16 @@ function SearchBox(props) {
                             borderRadius='5'
                             _hover={{bg : linkHover}}
                             transition='0.2s all ease-in-out'
+                            cursor='pointer'
                             onClick={() => {
-                                // setSearchQuery(el.Title)
-                                history.push(`/movie/${el.Title}`)
+                                setSearchQuery(el.Title)
+                                setIsExpanded(false)
+                                setLoading(true)
+                                setTimeout(() => {
+                                    setLoading(true)
+                                    dispatch(clearData())
+                                    history.push(`/movie/${el.Title}`)
+                                }, 1500);
                             }}
                         >{el.Title}</Text>
                     )) : selectStatusSelector === 'loading' && movieList.length === 0 ? (

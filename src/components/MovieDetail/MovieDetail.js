@@ -5,41 +5,38 @@ import {
     Link,
     Image,
     Text,
-    Divider,
     HStack,
     Tag,
     Wrap,
     WrapItem,
-    SpaceProps,
     useColorModeValue,
     Container,
-    VStack,
     Button,
-    Stack,
-    StackDivider,
+    Spinner,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import { useSelector, useDispatch } from 'react-redux';
 import {
   selectMovie,
-  fetchMovieData,
   fetchMovie,
 } from './MovieDetailSlice'
-import usePrevious from '../../hooks/usePrevious';
 import { useHistory, useParams } from 'react-router-dom';
 import { checkObjectLength } from '../../utils/Util';
+import { motion } from "framer-motion";
 
 const BlogTags = (props) => {
     return (
-      <HStack spacing={2} marginTop={props.marginTop}>
+      <Wrap spacing={2} marginTop={props.marginTop} mb='5'>
         {props.tags.map((tag) => {
           return (
-            <Tag size={'md'} variant="solid" colorScheme="orange" key={tag}>
-              {tag}
-            </Tag>
+            <WrapItem>
+              <Tag size={'md'} variant="solid" colorScheme="linkedin" key={tag}>
+                {tag}
+              </Tag>
+            </WrapItem>
           );
         })}
-      </HStack>
+      </Wrap>
     );
 };
 
@@ -58,6 +55,8 @@ export const BlogAuthor = (props) => {
       </HStack>
     );
 };
+
+const ImageMotion = motion(Image)
 
 function MovieDetail(props) {
   const [movieDetail, setMovieDetail] = useState({})
@@ -85,7 +84,6 @@ function MovieDetail(props) {
     'radial(orange.300 1px, transparent 1px)'
   )
   const textColor = useColorModeValue('gray.700', 'gray.200')
-  const borderColor = useColorModeValue('gray.100', 'gray.700')
 
   return (
       <Container maxW={'7xl'} p="12">
@@ -118,11 +116,13 @@ function MovieDetail(props) {
                     justifyContent='center'
                     alignItems="center"
                     marginTop="5%">
-                      <Image
+                      <ImageMotion
                         borderRadius="lg"
                         src={movieDetail.Poster}
                         alt="some good alt text"
                         objectFit="contain"
+                        initial={{ opacity: 0, x: '-200px'}}
+                        animate={{ opacity: 1, x: 0}}
                     />
                     {/* <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
                     <Image
@@ -143,12 +143,12 @@ function MovieDetail(props) {
                 </Box>
                 </Box>
                 <Box
-                display="flex"
-                flex="1"
-                flexDirection="column"
-                justifyContent="center"
-                marginTop={{ base: '3', sm: '0' }}>
-                <BlogTags tags={['Engineering', 'Product']} />
+                  display="flex"
+                  flex="1"
+                  flexDirection="column"
+                  justifyContent="center"
+                  marginTop={{ base: '3', sm: '0' }}>
+                <BlogTags tags={movieDetail.Genre.split(',')} />
                 <Heading marginTop="1">
                     <Link textDecoration="none" _hover={{ textDecoration: 'none' }}>
                     {movieDetail.Title}
@@ -161,28 +161,10 @@ function MovieDetail(props) {
                     fontSize="lg">
                     {movieDetail.Plot}
                 </Text>
-                    
-                <Stack 
-                    
-                    w='100%'
-                    textAlign='left'
-                    px='1rem'
-                    spacing='0'
-                    divider={<StackDivider borderColor={borderColor} /> }
-                >
-                        <Text 
-                            py='0.5rem'
-                            px='0.5rem'
-                            fontWeight={600} 
-                            borderRadius='5'
-                        >Title</Text>
-                </Stack>
-
-
                 </Box>
             </Box>
           ) : (
-            <Text>Loading...</Text>
+            <Box w='100%' py='1rem'><Spinner size='lg' /></Box>
           )}
           
       </Container>
